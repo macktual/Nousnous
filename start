@@ -1,0 +1,4 @@
+Tu es un expert Flutter/Dart. Ce projet suit une Clean Architecture
+(data/domain/presentation). Utilise Riverpod, sqflite, GoRouter.
+Génère toujours du code complet et fonctionnel. Ne raccourcis jamais
+avec des commentaires "// reste du code". Langue de l'app : français.

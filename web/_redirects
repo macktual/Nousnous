@@ -1,0 +1,3 @@
+# Redirection pour l'app Flutter (routing côté client)
+# Toutes les URLs renvoient vers index.html
+/*    /index.html   200
