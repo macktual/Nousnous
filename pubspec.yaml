@@ -54,6 +54,10 @@ dependencies:
   # Photo enfant (galerie / appareil photo)
   image_picker: ^1.0.7
 
+  # Notifications locales (rappels Doliprane)
+  flutter_local_notifications: ^17.2.3
+  timezone: ^0.9.4
+
   # Utilitaires divers
   crypto: ^3.0.3
   intl: ^0.20.2

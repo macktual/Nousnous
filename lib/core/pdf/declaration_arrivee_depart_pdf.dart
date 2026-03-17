@@ -431,8 +431,8 @@ List<pw.TableRow> _horairesTableRowsForPatterns(
         children: List.generate(8, (_) => pw.Container(height: 6, alignment: pw.Alignment.center, child: pw.SizedBox.shrink())),
       ));
     }
-    final label = i == 0 ? 'Semaine A' : 'Semaine B';
     final p = periodPatterns[i];
+    final label = p.name;
     rows.add(pw.TableRow(
       children: [
         pw.Padding(padding: const pw.EdgeInsets.all(3), child: pw.Text('$label - Arrivée', style: const pw.TextStyle(fontSize: 7))),

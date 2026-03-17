@@ -9,7 +9,7 @@ class RoutePaths {
   static const String childVaccinations = '/children/:id/vaccinations';
   static const String childMedications = '/children/:id/medications';
   static const String childDiseases = '/children/:id/diseases';
-  static const String childQuickMessages = '/children/:id/quick-messages';
+  static const String childDoliprane = '/children/:id/doliprane';
   static const String vaccinationRules = '/vaccination-rules';
   static const String pdfPreview = '/pdf-preview';
   static const String about = '/about';

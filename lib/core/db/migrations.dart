@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 class DbMigrations {
-  static const int currentVersion = 20;
+  static const int currentVersion = 22;
 
   static Future<void> onCreate(Database db, int version) async {
     await _migration1(db);
@@ -24,6 +24,8 @@ class DbMigrations {
     if (version >= 18) await _migration18(db);
     if (version >= 19) await _migration19(db);
     if (version >= 20) await _migration20(db);
+    if (version >= 21) await _migration21(db);
+    if (version >= 22) await _migration22(db);
   }
 
   static Future<void> onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -91,8 +93,57 @@ class DbMigrations {
         case 20:
           await _migration20(db);
           break;
+        case 21:
+          await _migration21(db);
+          break;
+        case 22:
+          await _migration22(db);
+          break;
       }
     }
+  }
+
+  /// Rappel Méningocoque B (3) - 12 mois - BEXSERO® (manquant au calendrier).
+  static Future<void> _migration22(Database db) async {
+    final existing = await db.rawQuery(
+      "SELECT COUNT(*) as c FROM vaccination_rules WHERE name LIKE '%Méningocoque B (3)%'",
+    );
+    if (((existing.first['c'] as int?) ?? 0) > 0) return;
+
+    final menb2 = await db.query(
+      'vaccination_rules',
+      columns: ['sort_order'],
+      where: "name LIKE '%Méningocoque B (2)%'",
+    );
+    final afterOrder = menb2.isNotEmpty ? (menb2.first['sort_order'] as int) : 8;
+    await db.rawUpdate(
+      'UPDATE vaccination_rules SET sort_order = sort_order + 1 WHERE sort_order > ?',
+      [afterOrder],
+    );
+    await db.insert('vaccination_rules', {
+      'name': 'Méningocoque B (3) - 12 mois - BEXSERO®',
+      'delay_months': 12,
+      'sort_order': afterOrder + 1,
+    });
+  }
+
+  static Future<void> _migration21(Database db) async {
+    await db.execute('''
+CREATE TABLE IF NOT EXISTS doliprane_prescriptions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  child_id INTEGER NOT NULL,
+  start_date TEXT NOT NULL,
+  end_date TEXT NOT NULL,
+  prescription_date TEXT,
+  child_weight_kg REAL,
+  weight_date TEXT,
+  reminder_weeks_before_end INTEGER,
+  photo_path TEXT
+);
+''');
+    await db.execute('''
+CREATE INDEX IF NOT EXISTS idx_doliprane_prescriptions_child_id ON doliprane_prescriptions(child_id);
+''');
   }
 
   static Future<void> _migration20(Database db) async {
@@ -428,11 +479,12 @@ ON vaccinations(child_id, rule_id);
         ['Pneumocoque (3) - 11 mois - PREVENAR 13®, PNEUMOVAX®, VAXNEUVANCE®', 11, 6],
         ['Méningocoque B (1) - 2 mois - BEXSERO®', 2, 7],
         ['Méningocoque B (2) - 4 mois - BEXSERO®', 4, 8],
-        ['Méningocoques ACWY (1) - 6 mois - NIMENRIX®, MENQUADFI®', 6, 9],
-        ['Méningocoques ACWY (2) - 12 mois - NIMENRIX®, MENQUADFI®', 12, 10],
-        ['ROR (1) - 12 mois - M-M-RVaxPro®, PRIORIX®', 12, 11],
-        ['ROR (2) - 16 mois - M-M-RVaxPro®, PRIORIX®', 16, 12],
-        ['Rappel DTP - 6 ans (72 mois)', 72, 13],
+        ['Méningocoque B (3) - 12 mois - BEXSERO®', 12, 9],
+        ['Méningocoques ACWY (1) - 6 mois - NIMENRIX®, MENQUADFI®', 6, 10],
+        ['Méningocoques ACWY (2) - 12 mois - NIMENRIX®, MENQUADFI®', 12, 11],
+        ['ROR (1) - 12 mois - M-M-RVaxPro®, PRIORIX®', 12, 12],
+        ['ROR (2) - 16 mois - M-M-RVaxPro®, PRIORIX®', 16, 13],
+        ['Rappel DTP - 6 ans (72 mois)', 72, 14],
       ];
       for (final row in defaults) {
         await db.insert('vaccination_rules', {

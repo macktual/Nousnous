@@ -50,7 +50,7 @@ class _ChildEditPageState extends ConsumerState<ChildEditPage> {
   DateTime? _contractStartDate;
   DateTime? _contractEndDate;
   bool _sameAddressAsP1 = true;
-  bool _hasSemaineB = false;
+  int _patternCount = 1;
 
   String _toTitleCase(String value) {
     final trimmed = value.trim();
@@ -70,7 +70,8 @@ class _ChildEditPageState extends ConsumerState<ChildEditPage> {
   /// Motif de départ (saisi à l'archivage), conservé en édition
   String? _particularitesFinContrat;
 
-  static const List<String> _patternNames = ['Semaine type', 'Semaine B'];
+  static const int _maxPatterns = 5;
+  static const List<String> _patternNames = ['Semaine type', 'Semaine B', 'Semaine C', 'Semaine D', 'Semaine E'];
 
   /// Valeurs par défaut pour les horaires (à modifier si besoin).
   static const String _defaultArrival = '08:00';
@@ -79,14 +80,14 @@ class _ChildEditPageState extends ConsumerState<ChildEditPage> {
   @override
   void initState() {
     super.initState();
-    _scheduleArrivals = [
-      List.generate(5, (_) => TextEditingController(text: _defaultArrival)),
-      List.generate(5, (_) => TextEditingController(text: _defaultArrival)),
-    ];
-    _scheduleDeparts = [
-      List.generate(5, (_) => TextEditingController(text: _defaultDeparture)),
-      List.generate(5, (_) => TextEditingController(text: _defaultDeparture)),
-    ];
+    _scheduleArrivals = List.generate(
+      _maxPatterns,
+      (_) => List.generate(5, (_) => TextEditingController(text: _defaultArrival)),
+    );
+    _scheduleDeparts = List.generate(
+      _maxPatterns,
+      (_) => List.generate(5, (_) => TextEditingController(text: _defaultDeparture)),
+    );
   }
 
   @override
@@ -238,8 +239,8 @@ class _ChildEditPageState extends ConsumerState<ChildEditPage> {
     }
     final currentPatterns = child.weeklyPatterns.where((p) => p.validUntil == null).toList();
     if (currentPatterns.isNotEmpty) {
-      _hasSemaineB = currentPatterns.length > 1;
-      for (var p = 0; p < currentPatterns.length && p < 2; p++) {
+      _patternCount = currentPatterns.length.clamp(1, _maxPatterns);
+      for (var p = 0; p < currentPatterns.length && p < _maxPatterns; p++) {
         final w = currentPatterns[p];
         for (final e in w.entries) {
           if (e.weekday >= 1 && e.weekday <= 5) {
@@ -362,6 +363,13 @@ class _ChildEditPageState extends ConsumerState<ChildEditPage> {
           },
         ),
         title: Text(_isCreate ? 'Nouvel enfant' : 'Modifier l\'enfant'),
+        actions: [
+          FilledButton(
+            onPressed: _onSave,
+            child: Text(_isCreate ? 'Créer' : 'Enregistrer'),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: Form(
         key: _formKey,
@@ -644,27 +652,18 @@ class _ChildEditPageState extends ConsumerState<ChildEditPage> {
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 16),
-            const Text('Horaires (semaine type)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
-            _ScheduleGrid(
-              arrivalControllers: _scheduleArrivals[0],
-              departureControllers: _scheduleDeparts[0],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Text(
-                'Modifier un horaire le reporte sur les jours suivants.',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+            ...List.generate(_patternCount, (p) => [
+              Text(
+                'Horaires ${_patternNames[p]}',
+                style: TextStyle(
+                  fontSize: p == 0 ? 18 : 16,
+                  fontWeight: p == 0 ? FontWeight.w600 : FontWeight.w500,
+                ),
               ),
-            ),
-            if (_hasSemaineB) ...[
               const SizedBox(height: 8),
-              const Text('Horaires Semaine B', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
               _ScheduleGrid(
-                arrivalControllers: _scheduleArrivals[1],
-                departureControllers: _scheduleDeparts[1],
+                arrivalControllers: _scheduleArrivals[p],
+                departureControllers: _scheduleDeparts[p],
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 4),
@@ -675,22 +674,24 @@ class _ChildEditPageState extends ConsumerState<ChildEditPage> {
                       ),
                 ),
               ),
+              if (p < _patternCount - 1) const SizedBox(height: 8),
+            ]).expand((e) => e),
+            const SizedBox(height: 4),
+            if (_patternCount < _maxPatterns)
               TextButton.icon(
-                onPressed: () => setState(() => _hasSemaineB = false),
-                icon: const Icon(Icons.remove_circle_outline),
-                label: const Text('Retirer la Semaine B'),
-              ),
-            ] else
-              TextButton.icon(
-                onPressed: () => setState(() => _hasSemaineB = true),
+                onPressed: () => setState(() => _patternCount++),
                 icon: const Icon(Icons.add_circle_outline),
-                label: const Text('Ajouter une Semaine B'),
+                label: Text('Ajouter une ${_patternNames[_patternCount]}'),
               ),
-            const SizedBox(height: 24),
-            FilledButton(
-              onPressed: _onSave,
-              child: Text(_isCreate ? 'Créer l\'enfant' : 'Enregistrer'),
-            ),
+            if (_patternCount > 1)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: TextButton.icon(
+                  onPressed: () => setState(() => _patternCount--),
+                  icon: const Icon(Icons.remove_circle_outline),
+                  label: Text('Retirer la ${_patternNames[_patternCount - 1]}'),
+                ),
+              ),
           ],
         ),
       ),
@@ -743,8 +744,7 @@ class _ChildEditPageState extends ConsumerState<ChildEditPage> {
     ];
 
     final patterns = <WeeklyPattern>[];
-    final patternCount = _hasSemaineB ? 2 : 1;
-    for (var i = 0; i < patternCount; i++) {
+    for (var i = 0; i < _patternCount; i++) {
       final entries = <ScheduleEntry>[];
       for (var d = 0; d < 5; d++) {
         final arr = _scheduleArrivals[i][d].text.trim();

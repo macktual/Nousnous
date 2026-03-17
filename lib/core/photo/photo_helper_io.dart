@@ -132,6 +132,26 @@ Future<Uint8List?> loadJustificationPhotoBytes(String path) async {
   }
 }
 
+/// Enregistre la photo d'une ordonnance Doliprane.
+Future<String?> saveDolipranePrescriptionPhoto(XFile file, {int? prescriptionId}) async {
+  try {
+    final dir = await getApplicationDocumentsDirectory();
+    final photoDir = Directory(p.join(dir.path, 'doliprane_prescriptions'));
+    if (!await photoDir.exists()) {
+      await photoDir.create(recursive: true);
+    }
+    final name = prescriptionId != null
+        ? 'prescription_$prescriptionId.jpg'
+        : 'prescription_${DateTime.now().millisecondsSinceEpoch}.jpg';
+    final destPath = p.join(photoDir.path, name);
+    final bytes = await file.readAsBytes();
+    await File(destPath).writeAsBytes(bytes);
+    return destPath;
+  } catch (_) {
+    return null;
+  }
+}
+
 /// Enregistre une photo de justificatif de vaccination (reçu du parent).
 /// Si la même photo (même contenu) est déjà enregistrée, réutilise le fichier existant
 /// au lieu de dupliquer, pour économiser l'espace.

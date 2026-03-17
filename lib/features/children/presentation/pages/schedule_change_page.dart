@@ -18,30 +18,31 @@ class ScheduleChangePage extends ConsumerStatefulWidget {
 }
 
 class _ScheduleChangePageState extends ConsumerState<ScheduleChangePage> {
-  static const List<String> _patternNames = ['Semaine type', 'Semaine B'];
+  static const int _maxPatterns = 5;
+  static const List<String> _patternNames = ['Semaine type', 'Semaine B', 'Semaine C', 'Semaine D', 'Semaine E'];
   static const String _defaultArrival = '08:00';
   static const String _defaultDeparture = '18:00';
 
   late final List<List<TextEditingController>> _scheduleArrivals;
   late final List<List<TextEditingController>> _scheduleDeparts;
   DateTime? _validFromDate;
-  bool _hasSemaineB = false;
+  int _patternCount = 1;
 
   @override
   void initState() {
     super.initState();
-    _scheduleArrivals = [
-      List.generate(5, (_) => TextEditingController(text: _defaultArrival)),
-      List.generate(5, (_) => TextEditingController(text: _defaultArrival)),
-    ];
-    _scheduleDeparts = [
-      List.generate(5, (_) => TextEditingController(text: _defaultDeparture)),
-      List.generate(5, (_) => TextEditingController(text: _defaultDeparture)),
-    ];
+    _scheduleArrivals = List.generate(
+      _maxPatterns,
+      (_) => List.generate(5, (_) => TextEditingController(text: _defaultArrival)),
+    );
+    _scheduleDeparts = List.generate(
+      _maxPatterns,
+      (_) => List.generate(5, (_) => TextEditingController(text: _defaultDeparture)),
+    );
     final currentPatterns = widget.child.weeklyPatterns.where((p) => p.validUntil == null).toList();
     if (currentPatterns.isNotEmpty) {
-      _hasSemaineB = currentPatterns.length > 1;
-      for (var p = 0; p < currentPatterns.length && p < 2; p++) {
+      _patternCount = currentPatterns.length.clamp(1, _maxPatterns);
+      for (var p = 0; p < currentPatterns.length && p < _maxPatterns; p++) {
         final w = currentPatterns[p];
         for (final e in w.entries) {
           if (e.weekday >= 1 && e.weekday <= 5) {
@@ -78,8 +79,7 @@ class _ScheduleChangePageState extends ConsumerState<ScheduleChangePage> {
     }
 
     final patterns = <WeeklyPattern>[];
-    final patternCount = _hasSemaineB ? 2 : 1;
-    for (var i = 0; i < patternCount; i++) {
+    for (var i = 0; i < _patternCount; i++) {
       final entries = <ScheduleEntry>[];
       for (var d = 0; d < 5; d++) {
         final arr = _scheduleArrivals[i][d].text.trim();
@@ -164,29 +164,36 @@ class _ScheduleChangePageState extends ConsumerState<ScheduleChangePage> {
               ),
             ),
             const SizedBox(height: 24),
-            const Text('Horaires (semaine type)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
-            _ScheduleGrid(
-              arrivalControllers: _scheduleArrivals[0],
-              departureControllers: _scheduleDeparts[0],
-            ),
-            if (_hasSemaineB) ...[
+            ...List.generate(_patternCount, (p) => [
+              if (p > 0) const SizedBox(height: 12),
+              Text(
+                'Horaires ${_patternNames[p]}',
+                style: TextStyle(
+                  fontSize: p == 0 ? 18 : 16,
+                  fontWeight: p == 0 ? FontWeight.w600 : FontWeight.w500,
+                ),
+              ),
               const SizedBox(height: 8),
-              const Text('Horaires Semaine B', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
               _ScheduleGrid(
-                arrivalControllers: _scheduleArrivals[1],
-                departureControllers: _scheduleDeparts[1],
+                arrivalControllers: _scheduleArrivals[p],
+                departureControllers: _scheduleDeparts[p],
               ),
+            ]).expand((e) => e),
+            const SizedBox(height: 8),
+            if (_patternCount < _maxPatterns)
               TextButton.icon(
-                onPressed: () => setState(() => _hasSemaineB = false),
-                icon: const Icon(Icons.remove_circle_outline),
-                label: const Text('Retirer la Semaine B'),
-              ),
-            ] else
-              TextButton.icon(
-                onPressed: () => setState(() => _hasSemaineB = true),
+                onPressed: () => setState(() => _patternCount++),
                 icon: const Icon(Icons.add_circle_outline),
-                label: const Text('Ajouter une Semaine B'),
+                label: Text('Ajouter une ${_patternNames[_patternCount]}'),
+              ),
+            if (_patternCount > 1)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: TextButton.icon(
+                  onPressed: () => setState(() => _patternCount--),
+                  icon: const Icon(Icons.remove_circle_outline),
+                  label: Text('Retirer la ${_patternNames[_patternCount - 1]}'),
+                ),
               ),
             const SizedBox(height: 24),
             FilledButton(

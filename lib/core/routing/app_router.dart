@@ -19,6 +19,9 @@ import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/diseases/domain/entities/disease_entry.dart';
 import '../../features/diseases/presentation/pages/disease_form_page.dart';
 import '../../features/diseases/presentation/pages/diseases_page.dart';
+import '../../features/doliprane/domain/entities/doliprane_prescription.dart';
+import '../../features/doliprane/presentation/pages/doliprane_form_page.dart';
+import '../../features/doliprane/presentation/pages/doliprane_page.dart';
 import '../../features/medications/domain/entities/medication_entry.dart';
 import '../../features/medications/presentation/pages/medication_form_page.dart';
 import '../../features/medications/presentation/pages/medications_page.dart';
@@ -214,16 +217,34 @@ final appRouterProvider = Provider<GoRouter>(
           ],
         ),
         GoRoute(
-          path: '/children/:id/quick-messages',
+          path: '/children/:id/doliprane',
           pageBuilder: (context, state) {
             final id = int.tryParse(state.pathParameters['id'] ?? '0') ?? 0;
             return MaterialPage(
-              child: Scaffold(
-                appBar: AppBar(title: const Text('Messages WhatsApp')),
-                body: Center(child: Text('Module Messages (enfant $id) – à venir')),
-              ),
+              child: DolipranePage(childId: id),
             );
           },
+          routes: [
+            GoRoute(
+              path: 'new',
+              pageBuilder: (context, state) {
+                final id = int.tryParse(state.pathParameters['id'] ?? '0') ?? 0;
+                return MaterialPage(
+                  child: DolipraneFormPage(childId: id, prescription: null),
+                );
+              },
+            ),
+            GoRoute(
+              path: 'edit/:prescriptionId',
+              pageBuilder: (context, state) {
+                final id = int.tryParse(state.pathParameters['id'] ?? '0') ?? 0;
+                final prescription = state.extra as DolipranePrescription?;
+                return MaterialPage(
+                  child: DolipraneFormPage(childId: id, prescription: prescription),
+                );
+              },
+            ),
+          ],
         ),
         GoRoute(
           path: RoutePaths.pdfPreview,

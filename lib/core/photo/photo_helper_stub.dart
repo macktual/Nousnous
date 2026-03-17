@@ -8,6 +8,8 @@ Future<String?> savePickedPhoto(XFile file, {int? childId}) async => null;
 
 Future<String?> saveVaccinationJustificationPhoto(XFile file, {required int childId, required int ruleId}) async => null;
 
+Future<String?> saveDolipranePrescriptionPhoto(XFile file, {int? prescriptionId}) async => null;
+
 Widget buildJustificationPhotoThumbnail(String path, {double size = 56}) {
   return Icon(Icons.broken_image, size: size);
 }

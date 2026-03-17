@@ -149,9 +149,9 @@ class _ChildDetailPageState extends ConsumerState<ChildDetailPage> {
                   onTap: () => context.push('/children/${child.id}/diseases'),
                 ),
                 _ModuleChip(
-                  icon: Icons.chat,
-                  label: 'Messages WhatsApp',
-                  onTap: () => context.push('/children/${child.id}/quick-messages'),
+                  icon: Icons.medication_liquid,
+                  label: 'Doliprane',
+                  onTap: () => context.push('/children/${child.id}/doliprane'),
                 ),
               ],
             ),
