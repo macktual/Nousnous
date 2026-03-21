@@ -10,7 +10,8 @@ import 'migrations.dart';
 class AppDatabase {
   AppDatabase();
 
-  static const String _dbFileName = 'assistante_maternelle.db';
+  /// Nom du fichier SQLite dans le dossier Documents (sauvegarde iCloud, etc.).
+  static const String dbFileName = 'assistante_maternelle.db';
 
   Database? _db;
 
@@ -23,7 +24,7 @@ class AppDatabase {
     }
 
     final docsDir = await getApplicationDocumentsDirectory();
-    final dbPath = p.join(docsDir.path, _dbFileName);
+    final dbPath = p.join(docsDir.path, dbFileName);
 
     final db = await openDatabase(
       dbPath,
@@ -34,6 +35,12 @@ class AppDatabase {
 
     _db = db;
     return db;
+  }
+
+  /// À appeler avant une copie externe du fichier .db (sauvegarde iCloud, export).
+  Future<void> checkpointWal() async {
+    final db = await database;
+    await db.rawQuery('PRAGMA wal_checkpoint(FULL)');
   }
 
   Future<void> close() async {

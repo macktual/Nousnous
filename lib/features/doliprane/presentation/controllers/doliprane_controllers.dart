@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/db/app_database.dart';
+import '../../../../core/db/app_database_provider.dart';
 import '../../data/datasources/doliprane_local_datasource.dart';
 import '../../data/repositories/doliprane_repository_impl.dart';
 import '../../domain/entities/doliprane_prescription.dart';
@@ -10,14 +10,8 @@ import '../../domain/usecases/delete_doliprane_prescription.dart';
 import '../../domain/usecases/get_doliprane_for_child.dart';
 import '../../domain/usecases/save_doliprane_prescription.dart';
 
-final dolipraneDatabaseProvider = Provider<AppDatabase>((ref) {
-  final db = AppDatabase();
-  ref.onDispose(db.close);
-  return db;
-});
-
 final dolipraneLocalDatasourceProvider = Provider<DolipraneLocalDatasource>((ref) {
-  return DolipraneLocalDatasource(ref.watch(dolipraneDatabaseProvider));
+  return DolipraneLocalDatasource(ref.watch(appDatabaseProvider));
 });
 
 final dolipraneRepositoryProvider = Provider<DolipraneRepository>((ref) {

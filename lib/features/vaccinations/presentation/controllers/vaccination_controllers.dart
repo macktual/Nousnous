@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/db/app_database.dart';
+import '../../../../core/db/app_database_provider.dart';
 import '../../data/datasources/vaccination_local_datasource.dart';
 import '../../data/repositories/vaccination_repository_impl.dart';
 import '../../domain/entities/vaccination_entry.dart';
@@ -12,14 +12,8 @@ import '../../domain/usecases/get_vaccination_schedule.dart';
 import '../../domain/usecases/save_vaccination_rule.dart';
 import '../../domain/usecases/update_vaccination_status.dart';
 
-final vaccinationDatabaseProvider = Provider<AppDatabase>((ref) {
-  final db = AppDatabase();
-  ref.onDispose(db.close);
-  return db;
-});
-
 final vaccinationLocalDatasourceProvider = Provider<VaccinationLocalDatasource>((ref) {
-  return VaccinationLocalDatasource(ref.watch(vaccinationDatabaseProvider));
+  return VaccinationLocalDatasource(ref.watch(appDatabaseProvider));
 });
 
 final vaccinationRepositoryProvider = Provider<VaccinationRepository>((ref) {

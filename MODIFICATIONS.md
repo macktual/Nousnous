@@ -95,6 +95,15 @@ Document récapitulatif des principales évolutions apportées au projet (assist
 ## Interface
 
 - **Schéma vaccinal (smartphone)** : affichage sur plusieurs lignes / pleine largeur (plus de chips trop longs) pour une lecture correcte sur petit écran.
+- **À propos** : affichage de la **version** et du **numéro de build** installés (`package_info_plus`), pour faciliter le partage d’APK et le support entre collègues.
+
+---
+
+## Sauvegarde iCloud (iPhone / iPad)
+
+- **À propos** : section **Sauvegarde iCloud** avec **Enregistrer sur iCloud** (ZIP : base SQLite + dossiers photos / justificatifs / signatures) et **Restaurer** (remplace les données locales ; confirmation obligatoire).
+- **Technique** : conteneur iCloud Drive `iCloud.com.example.assistanteMaternelle`, canal natif iOS ; une seule instance `AppDatabase` partagée (Riverpod) pour fermer proprement la base avant copie.
+- **Limite** : pas une synchro temps réel ; la propagation dépend d’iOS. **Android** : pas d’UI iCloud (fonctionnalité réservée à iOS).
 
 ---
 

@@ -137,19 +137,12 @@ Future<pw.Document> buildDeclarationArriveeDepartPdf({
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.stretch,
             children: [
-              // Ligne 1 : numéro d'agrément fixe 034.988 (à gauche), logo à droite
-              pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  pw.Text(
-                    "Numéro d'agrément : 034.988",
-                    style: const pw.TextStyle(fontSize: 10),
-                  ),
-                  if (logoImageBytes != null && logoImageBytes.isNotEmpty)
-                    pw.Image(pw.MemoryImage(logoImageBytes), height: 52, fit: pw.BoxFit.contain),
-                ],
-              ),
+              // Logo en haut à droite (optionnel)
+              if (logoImageBytes != null && logoImageBytes.isNotEmpty)
+                pw.Align(
+                  alignment: pw.Alignment.centerRight,
+                  child: pw.Image(pw.MemoryImage(logoImageBytes), height: 52, fit: pw.BoxFit.contain),
+                ),
             pw.SizedBox(height: 8),
             // Bloc titre gris : titre + "(1 fiche par enfant)" (identique au Word)
             pw.Container(

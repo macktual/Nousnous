@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/db/app_database.dart';
+import '../../../../core/db/app_database_provider.dart';
 import '../../data/datasources/child_local_datasource.dart';
 import '../../data/repositories/child_repository_impl.dart';
 import '../../domain/entities/child.dart';
@@ -15,14 +15,8 @@ import '../../domain/usecases/get_archived_children.dart';
 import '../../domain/usecases/get_child_detail.dart';
 import '../../domain/usecases/update_child.dart';
 
-final childAppDatabaseProvider = Provider<AppDatabase>((ref) {
-  final db = AppDatabase();
-  ref.onDispose(db.close);
-  return db;
-});
-
 final childLocalDatasourceProvider = Provider<ChildLocalDatasource>((ref) {
-  return ChildLocalDatasource(ref.watch(childAppDatabaseProvider));
+  return ChildLocalDatasource(ref.watch(appDatabaseProvider));
 });
 
 final childRepositoryProvider = Provider<ChildRepository>((ref) {

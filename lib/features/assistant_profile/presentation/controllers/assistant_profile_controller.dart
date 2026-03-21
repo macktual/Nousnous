@@ -1,18 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/db/app_database.dart';
+import '../../../../core/db/app_database_provider.dart';
 import '../../data/datasources/assistant_local_datasource.dart';
 import '../../data/repositories/assistant_repository_impl.dart';
 import '../../domain/entities/assistant.dart';
 import '../../domain/usecases/get_assistant_profile.dart';
 import '../../domain/usecases/save_assistant_profile.dart';
-
-final appDatabaseProvider = Provider<AppDatabase>((ref) {
-  final db = AppDatabase();
-  ref.onDispose(db.close);
-  return db;
-});
 
 final assistantLocalDatasourceProvider = Provider<AssistantLocalDatasource>((ref) {
   return AssistantLocalDatasource(ref.watch(appDatabaseProvider));
