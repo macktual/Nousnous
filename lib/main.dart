@@ -34,7 +34,7 @@ class AssistanteMaternelleApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
-      title: 'nousnous',
+      title: 'easynounou',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       routerConfig: router,

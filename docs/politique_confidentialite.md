@@ -1,8 +1,8 @@
 # Politique de confidentialité — NousNous (application Assistante maternelle)
 
-**Dernière mise à jour :** [DATE]  
+**Dernière mise à jour :** 2026-03-25  
 **Application :** NousNous (Assistante maternelle)  
-**Éditeur / Responsable du traitement :** [NOM ou RAISON SOCIALE]
+**Éditeur / Responsable du traitement :** Franck Tual
 
 ---
 
@@ -16,11 +16,11 @@ Cette politique de confidentialité décrit la manière dont l’application **N
 
 Le responsable du traitement des données est :
 
-- **Identité :** [Nom / Raison sociale]
-- **Contact :** [Adresse e-mail]
-- **Adresse postale :** [Adresse]
+- **Identité :** Franck Tual
+- **Contact :** tualfranck@gmail.com
+- **Adresse postale :** France
 
-Pour toute question relative à vos données ou à cette politique : [VOTRE_EMAIL].
+Pour toute question relative à vos données ou à cette politique : tualfranck@gmail.com.
 
 ---
 
@@ -63,7 +63,7 @@ Ces données sont utilisées **uniquement** pour la gestion de l’accueil et la
 ### 3.5 Données techniques
 
 - Les données sont stockées **localement** sur l’appareil (téléphone ou tablette).  
-- Aucun serveur externe dédié à l’Application ne reçoit ni ne stocke les données des fiches enfants, vaccins, médicaments ou profils.
+- **Sauvegarde iCloud (optionnelle)** : lorsque la fonction « Enregistrer sur iCloud » est utilisée, une copie de sauvegarde (base + photos) est copiée et stockée dans le conteneur iCloud Drive de l’application (services fournis par Apple). En dehors de cette action, aucune donnée n’est transmise à des serveurs.
 
 ---
 
@@ -81,7 +81,8 @@ Les données de santé (vaccinations, médicaments, maladies) sont traitées dan
 
 ## 5. Destinataires des données
 
-- **Aucune donnée n’est transmise** à des serveurs de l’éditeur ni à des tiers (publicité, analytics, etc.).  
+- **Aucune donnée n’est transmise** à des serveurs de l’éditeur ni à des tiers à des fins de publicité/analytics.  
+- En cas d’utilisation de la sauvegarde iCloud, la sauvegarde est copiée dans iCloud Drive (infrastructure d’Apple), sur le même compte Apple.
 - Les données restent **sur l’appareil** de l’utilisatrice ou de l’utilisateur.  
 - Les PDF générés sont destinés à un usage personnel ou professionnel de l’utilisatrice (ex. remise aux parents, archivage, déclarations). La diffusion des PDF relève de la seule responsabilité de l’utilisatrice.
 
@@ -108,7 +109,7 @@ Vous disposez des droits suivants concernant vos données personnelles (et, dans
 
 Pour exercer ces droits ou pour toute question :
 
-- **Contact :** [VOTRE_EMAIL]  
+- **Contact :** tualfranck@gmail.com  
 - **Réclamation :** vous pouvez introduire une réclamation auprès de la **CNIL** (Commission nationale de l’informatique et des libertés) : [https://www.cnil.fr](https://www.cnil.fr).
 
 ---
@@ -128,7 +129,7 @@ Toute modification substantielle de cette politique sera signalée (par exemple 
 
 ## 10. Résumé (pour affichage court)
 
-**NousNous** ne transmet aucune donnée à un serveur. Toutes les informations (profil, enfants, parents, vaccins, médicaments, PDF) restent **sur votre appareil**. Vous pouvez à tout moment supprimer les données en désinstallant l’application ou en utilisant les fonctions de suppression ou d’archivage intégrées. Pour exercer vos droits ou poser une question : [VOTRE_EMAIL].
+Les données restent **sur votre appareil**. Une sauvegarde iCloud est possible uniquement si vous l’activez dans l’app (stockage dans iCloud Drive). Vous pouvez à tout moment supprimer les données en désinstallant l’application ou en utilisant les fonctions de suppression ou d’archivage intégrées. Pour exercer vos droits ou poser une question : tualfranck@gmail.com.
 
 ---
 

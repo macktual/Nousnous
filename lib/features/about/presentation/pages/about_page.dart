@@ -120,7 +120,7 @@ class _AboutPageState extends ConsumerState<AboutPage> {
         padding: const EdgeInsets.all(20),
         children: [
           Text(
-            'nousnous',
+            'easynounou',
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -175,21 +175,44 @@ class _AboutPageState extends ConsumerState<AboutPage> {
           const Divider(),
           const SizedBox(height: 16),
           Text(
-            'Soutien',
+            'Propriété intellectuelle',
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'Si cette application vous est utile, vous pouvez soutenir son développement par un don via PayPal.',
+            '© 2025 Franck Tual – Tous droits réservés.',
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 12),
-          FilledButton.icon(
-            onPressed: _openPayPalDonate,
-            icon: const Icon(Icons.volunteer_activism, size: 20),
-            label: const Text('Faire un don via PayPal'),
+          Text(
+            'Ce logiciel et l’ensemble du code source, des interfaces et des fonctionnalités sont la propriété exclusive de Franck Tual. Aucune partie de ce projet ne peut être considérée comme libre de droits.',
+            style: theme.textTheme.bodyMedium,
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Restrictions',
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Sans autorisation écrite préalable, il est interdit de :\n'
+            '• Copier tout ou partie du code ou des ressources\n'
+            '• Modifier le logiciel pour en créer une version dérivée\n'
+            '• Partager, distribuer ou publier le code ou les binaires\n'
+            '• Revendre ou réutiliser des éléments du projet dans un autre logiciel',
+            style: theme.textTheme.bodyMedium,
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'L’utilisation de l’application est réservée à l’usage personnel ou professionnel pour lequel elle a été conçue. Toute autre utilisation doit faire l’objet d’un accord explicite.',
+            style: theme.textTheme.bodySmall?.copyWith(
+              fontStyle: FontStyle.italic,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
           if (showIcloud) ...[
             const SizedBox(height: 24),
@@ -289,44 +312,21 @@ class _AboutPageState extends ConsumerState<AboutPage> {
           const Divider(),
           const SizedBox(height: 16),
           Text(
-            'Propriété intellectuelle',
+            'Soutien',
             style: theme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            '© 2025 Franck Tual – Tous droits réservés.',
+            'Si cette application vous est utile, vous pouvez soutenir son développement par un don via PayPal.',
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 12),
-          Text(
-            'Ce logiciel et l’ensemble du code source, des interfaces et des fonctionnalités sont la propriété exclusive de Franck Tual. Aucune partie de ce projet ne peut être considérée comme libre de droits.',
-            style: theme.textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'Restrictions',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Sans autorisation écrite préalable, il est interdit de :\n'
-            '• Copier tout ou partie du code ou des ressources\n'
-            '• Modifier le logiciel pour en créer une version dérivée\n'
-            '• Partager, distribuer ou publier le code ou les binaires\n'
-            '• Revendre ou réutiliser des éléments du projet dans un autre logiciel',
-            style: theme.textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'L’utilisation de l’application est réservée à l’usage personnel ou professionnel pour lequel elle a été conçue. Toute autre utilisation doit faire l’objet d’un accord explicite.',
-            style: theme.textTheme.bodySmall?.copyWith(
-              fontStyle: FontStyle.italic,
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
+          FilledButton.icon(
+            onPressed: _openPayPalDonate,
+            icon: const Icon(Icons.volunteer_activism, size: 20),
+            label: const Text('Faire un don via PayPal'),
           ),
         ],
       ),

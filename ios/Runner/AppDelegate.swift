@@ -16,7 +16,7 @@ private func registerICloudChannel(_ messenger: FlutterBinaryMessenger) {
         result(false)
         return
       }
-      let path = container.appendingPathComponent("Documents").appendingPathComponent("nousnous_backup.zip").path
+      let path = container.appendingPathComponent("Documents").appendingPathComponent("easynounou_backup.zip").path
       result(FileManager.default.fileExists(atPath: path))
 
     case "backupModifiedMillis":
@@ -24,7 +24,7 @@ private func registerICloudChannel(_ messenger: FlutterBinaryMessenger) {
         result(nil)
         return
       }
-      let url = container.appendingPathComponent("Documents").appendingPathComponent("nousnous_backup.zip")
+      let url = container.appendingPathComponent("Documents").appendingPathComponent("easynounou_backup.zip")
       guard FileManager.default.fileExists(atPath: url.path) else {
         result(nil)
         return

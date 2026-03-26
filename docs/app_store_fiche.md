@@ -88,17 +88,23 @@ Indiquez l’URL de la page où vous hébergez la politique de confidentialité,
 
 *(Voir le fichier `politique_confidentialite.md` ou `politique_confidentialite.html` dans ce dossier.)*
 
+Exemple à utiliser ici :
+`https://macktual.github.io/Nousnous/politique_confidentialite.html`
+
 ---
 
 ## URL de support (obligatoire)
 
 Exemple : `https://votresite.com/contact` ou une page « Contact » / « Support » avec votre adresse e-mail.
 
+Exemple à utiliser ici :
+`https://macktual.github.io/Nousnous/support.html`
+
 ---
 
 ## Contact
 
-- **E-mail :** [VOTRE_EMAIL]
+- **E-mail :** tualfranck@gmail.com
 - **Téléphone :** [OPTIONNEL]
 - **Adresse :** [OPTIONNEL — peut être demandée par Apple]
 

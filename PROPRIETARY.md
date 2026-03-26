@@ -1,6 +1,6 @@
 # Notice de propriété intellectuelle
 
-**Application : nousnous (assistante maternelle)**
+**Application : easynounou (assistante maternelle)**
 
 © 2025 Franck Tual – Tous droits réservés.
 

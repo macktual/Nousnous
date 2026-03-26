@@ -16,7 +16,7 @@ class IcloudBackupService {
   IcloudBackupService._();
 
   static const _channel = MethodChannel('fr.tual.nousnous/icloud');
-  static const _backupZipName = 'nousnous_backup.zip';
+  static const _backupZipName = 'easynounou_backup.zip';
 
   static const _photoDirs = [
     'children_photos',
@@ -50,7 +50,7 @@ class IcloudBackupService {
     }
   }
 
-  /// Indique si un fichier `nousnous_backup.zip` existe dans Documents iCloud de l’app.
+  /// Indique si un fichier `easynounou_backup.zip` existe dans Documents iCloud de l’app.
   static Future<bool> hasRemoteBackup() async {
     if (!isSupported) return false;
     try {
@@ -126,7 +126,7 @@ class IcloudBackupService {
     }
 
     final tempDir = await getTemporaryDirectory();
-    final localZip = File(p.join(tempDir.path, 'nousnous_restore_${DateTime.now().millisecondsSinceEpoch}.zip'));
+    final localZip = File(p.join(tempDir.path, 'easynounou_restore_${DateTime.now().millisecondsSinceEpoch}.zip'));
 
     final ok = await _channel.invokeMethod<bool>('copyFromICloud', <String, dynamic>{
       'destLocalPath': localZip.path,

@@ -1,5 +1,5 @@
 name: assistante_maternelle
-description: "Application de gestion pour assistante maternelle. © 2025 Franck Tual - Tous droits réservés. Usage personnel/professionnel uniquement."
+description: "easynounou — application de gestion pour assistante maternelle. © 2025 Franck Tual - Tous droits réservés. Usage personnel/professionnel uniquement."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.1+3
 
 environment:
   sdk: ^3.11.0
@@ -78,13 +78,18 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.3
+  image: ^4.5.4
 
-# Icônes de l'app (générées depuis assets/images/app_icon.png)
-# Commande : dart run flutter_launcher_icons
+# Icônes de l'app : d'abord générer le carré 1024 depuis la maquette, puis les assets iOS/Android.
+#   dart run tool/generate_square_app_icon.dart
+#   dart run flutter_launcher_icons
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/app_icon.png"
+  # iOS : pas d’alpha sur l’icône (sinon bords « vides » / transparence visible)
+  remove_alpha_ios: true
+  background_color_ios: "#FFF8F0"
   web:
     generate: true
   macos:

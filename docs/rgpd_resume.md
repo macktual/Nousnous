@@ -6,8 +6,8 @@ Document de synthèse pour déclarations stores (Play Store / App Store) et vér
 
 ## Responsable du traitement
 
-- **Identité :** [NOM / RAISON SOCIALE]
-- **Contact :** [VOTRE_EMAIL]
+- **Identité :** Franck Tual
+- **Contact :** tualfranck@gmail.com
 
 ---
 
@@ -20,7 +20,7 @@ Document de synthèse pour déclarations stores (Play Store / App Store) et vér
 | Données des parents | Nom, prénom, adresse, code postal, ville, téléphone, e-mail | Uniquement sur l’appareil |
 | Données de santé (contexte professionnel) | Vaccinations, médicaments, maladies (suivi) | Uniquement sur l’appareil |
 
-**Transmission à des tiers ou à un serveur :** aucune.
+**Transmission à des tiers ou à un serveur :** aucune, sauf en cas d’utilisation de la sauvegarde iCloud optionnelle (copie dans iCloud Drive fournie par Apple, sur le même compte Apple).
 
 ---
 
@@ -45,7 +45,7 @@ Document de synthèse pour déclarations stores (Play Store / App Store) et vér
 
 - **Accès, rectification, effacement** : possibles (rectification dans l’app ; effacement via désinstallation ou fonctions intégrées).
 - **Portabilité** : données sous le contrôle de l’utilisateur (local) ; PDF = export possible.
-- **Opposition / limitation** : exercice sur demande via [VOTRE_EMAIL].
+- **Opposition / limitation** : exercice sur demande via tualfranck@gmail.com.
 - **Réclamation** : CNIL (www.cnil.fr).
 
 ---
@@ -59,8 +59,8 @@ Document de synthèse pour déclarations stores (Play Store / App Store) et vér
 
 ## À cocher / indiquer dans les consoles stores
 
-- **Données collectées par l’app :** selon le formulaire, indiquer « Données saisies par l’utilisateur, stockées localement » et **ne pas** déclarer de collecte vers des serveurs (analytics, publicité, etc.) si vous n’en avez pas.
-- **Partage avec des tiers :** aucun.
+- **Données collectées par l’app :** données saisies par l’utilisateur, stockées localement. Option : sauvegarde iCloud si l’utilisatrice active « Enregistrer sur iCloud ».
+- **Partage avec des tiers :** aucun, sauf iCloud (Apple) lors de la sauvegarde iCloud optionnelle.
 - **Politique de confidentialité :** URL obligatoire (héberger `politique_confidentialite.html` ou la version .md convertie).
 
 ---

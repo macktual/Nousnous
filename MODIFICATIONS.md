@@ -1,7 +1,15 @@
-# Historique des modifications et améliorations – App nousnous
+# Historique des modifications et améliorations – App easynounou
 
-Document récapitulatif des principales évolutions apportées au projet (assistante maternelle / nousnous).  
+Document récapitulatif des principales évolutions apportées au projet (assistante maternelle / easynounou, ancien nom « nousnous » dans certains documents).  
 © Franck Tual – Usage personnel/professionnel.
+
+---
+
+## Identité de l’app
+
+- **Nom affiché :** **easynounou** (lanceur Android / iOS / macOS, titre web, page **À propos**).
+- **Icône :** proposition **icon_v3_01_bebe_joie** (bébé, couleurs joyeuses) → `assets/images/app_icon.png`, génération des tailles avec **flutter_launcher_icons**.
+- **Sauvegarde iCloud (iOS) :** archive **`easynounou_backup.zip`**.
 
 ---
 
