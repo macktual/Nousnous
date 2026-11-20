@@ -7,6 +7,45 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
+/// Dossier Documents de l'app, mémorisé au démarrage (voir [initAppFilePaths]).
+String? _docsDirPath;
+
+/// Sous-dossiers de Documents où l'app range ses fichiers.
+const _appFileDirs = [
+  'children_photos',
+  'vaccination_justifications',
+  'doliprane_prescriptions',
+  'archive_signatures',
+];
+
+/// À appeler au démarrage, avant d'afficher des photos.
+Future<void> initAppFilePaths() async {
+  try {
+    _docsDirPath = (await getApplicationDocumentsDirectory()).path;
+  } catch (_) {}
+}
+
+/// Retrouve un fichier de l'app à partir du chemin enregistré en base.
+///
+/// Sur iOS, le chemin du conteneur de l'app (…/Application/<UUID>/Documents)
+/// change à chaque mise à jour ou restauration iCloud : un chemin absolu
+/// enregistré auparavant ne pointe plus vers rien. On reconstruit alors le
+/// chemin à partir du dossier Documents actuel.
+File resolveAppFile(String storedPath) {
+  final original = File(storedPath);
+  final docs = _docsDirPath;
+  if (docs == null || original.existsSync()) return original;
+  final normalized = storedPath.replaceAll('\\', '/');
+  for (final dir in _appFileDirs) {
+    final marker = '/$dir/';
+    final idx = normalized.lastIndexOf(marker);
+    if (idx >= 0) {
+      return File(p.join(docs, dir, normalized.substring(idx + marker.length)));
+    }
+  }
+  return File(p.join(docs, p.basename(normalized)));
+}
+
 Future<String?> savePickedPhoto(XFile file, {int? childId}) async {
   try {
     final dir = await getApplicationDocumentsDirectory();
@@ -28,7 +67,7 @@ Future<String?> savePickedPhoto(XFile file, {int? childId}) async {
 
 /// Miniature pour une photo de justificatif (reçu du parent).
 Widget buildJustificationPhotoThumbnail(String path, {double size = 56}) {
-  final file = File(path);
+  final file = resolveAppFile(path);
   if (!file.existsSync()) {
     return Icon(Icons.broken_image, size: size);
   }
@@ -39,13 +78,16 @@ Widget buildJustificationPhotoThumbnail(String path, {double size = 56}) {
       width: size,
       height: size,
       fit: BoxFit.cover,
+      // Décode l'image à la taille de la vignette (×3 pour les écrans haute densité)
+      // au lieu de la pleine résolution : beaucoup moins de mémoire.
+      cacheWidth: (size * 3).round(),
     ),
   );
 }
 
 /// Ouvre une boîte de dialogue pour afficher la photo justificatif en grand (contrôle du document).
 void showJustificationPhotoViewer(BuildContext context, String path) {
-  final file = File(path);
+  final file = resolveAppFile(path);
   if (!file.existsSync()) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Image introuvable.')));
     return;
@@ -113,7 +155,7 @@ Future<String?> saveAssistantSignature(Uint8List bytes) async {
 Future<Uint8List?> loadAssistantSignatureBytes(String? path) async {
   if (path == null || path.isEmpty) return null;
   try {
-    final file = File(path);
+    final file = resolveAppFile(path);
     if (!file.existsSync()) return null;
     return await file.readAsBytes();
   } catch (_) {
@@ -124,7 +166,7 @@ Future<Uint8List?> loadAssistantSignatureBytes(String? path) async {
 /// Charge les octets d'une photo justificatif (pour PDF).
 Future<Uint8List?> loadJustificationPhotoBytes(String path) async {
   try {
-    final file = File(path);
+    final file = resolveAppFile(path);
     if (!file.existsSync()) return null;
     return await file.readAsBytes();
   } catch (_) {
@@ -185,11 +227,11 @@ Widget buildChildPhotoAvatar({
   double radius = 24,
 }) {
   if (photoPath != null && photoPath.isNotEmpty) {
-    final file = File(photoPath);
+    final file = resolveAppFile(photoPath);
     if (file.existsSync()) {
       return CircleAvatar(
         radius: radius,
-        backgroundImage: FileImage(file),
+        backgroundImage: ResizeImage(FileImage(file), width: (radius * 2 * 3).round()),
       );
     }
   }

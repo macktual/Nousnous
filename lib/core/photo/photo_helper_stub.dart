@@ -33,6 +33,8 @@ Future<String?> saveAssistantSignature(Uint8List bytes) async => null;
 
 Future<Uint8List?> loadAssistantSignatureBytes(String? path) async => null;
 
+Future<void> initAppFilePaths() async {}
+
 bool get isPhotoSupported => false;
 
 Widget buildChildPhotoAvatar({

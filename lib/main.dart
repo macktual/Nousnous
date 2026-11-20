@@ -4,11 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/notifications/doliprane_notification_service.dart';
+import 'core/photo/photo_helper.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Mémorise le dossier Documents pour retrouver photos et signatures
+  // même si le chemin du conteneur iOS a changé (mise à jour, restauration).
+  await initAppFilePaths();
 
   // Notifications : uniquement sur Android et iOS (pas sur macOS / Windows / Linux / web)
   if (!kIsWeb &&

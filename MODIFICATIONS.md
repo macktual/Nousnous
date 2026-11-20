@@ -119,6 +119,16 @@ Document récapitulatif des principales évolutions apportées au projet (assist
 
 ---
 
+## Version 1.0.3 (novembre 2026) – corrections et optimisation
+
+- **Photos et signatures (iOS)** : les chemins enregistrés en base sont désormais retrouvés même si le dossier de l’app change (mise à jour App Store, restauration iCloud, nouvel iPhone). Évite la disparition des photos enfant, justificatifs, ordonnances et signatures.
+- **Rappels Doliprane (Android)** : ajout des récepteurs de notifications dans le manifeste (rappels réellement affichés et reprogrammés après redémarrage du téléphone).
+- **Android 14+** : rappels en mode « inexact » (vers 9 h) ; suppression de la permission `SCHEDULE_EXACT_ALARM` (plus besoin de la justifier sur le Play Store).
+- **Suppression d’un enfant** : ses ordonnances Doliprane sont aussi supprimées et ses rappels annulés.
+- **Performance** : vignettes et avatars décodés à leur taille d’affichage (moins de mémoire) ; photo d’ordonnance limitée à 1600 px.
+
+---
+
 ## Droits et mentions
 
 - **Propriété** : fichier **PROPRIETARY.md**, page **À propos / Mentions légales** dans l’app, copyright **Franck Tual** dans la description du projet (pubspec) et dans l’app.

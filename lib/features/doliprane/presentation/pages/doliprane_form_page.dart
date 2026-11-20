@@ -128,7 +128,7 @@ class _DolipraneFormPageState extends ConsumerState<DolipraneFormPage> {
       ),
     );
     if (source == null || !mounted) return;
-    final file = await picker.pickImage(source: source, imageQuality: 85);
+    final file = await picker.pickImage(source: source, maxWidth: 1600, imageQuality: 85);
     if (file == null || !mounted) return;
     final path = await saveDolipranePrescriptionPhoto(
       file,

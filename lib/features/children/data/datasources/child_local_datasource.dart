@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import '../../../../core/db/app_database.dart';
+import '../../../../core/notifications/doliprane_notification_service.dart';
 import '../models/child_model.dart';
 
 class ChildLocalDatasource {
@@ -227,10 +228,19 @@ class ChildLocalDatasource {
     );
   }
 
-  /// Supprime définitivement un enfant et toutes ses données liées (parents, plannings, vaccins, médicaments, maladies).
+  /// Supprime définitivement un enfant et toutes ses données liées (parents, plannings, vaccins, médicaments, maladies, ordonnances Doliprane).
   Future<void> deleteChild(int id) async {
     final db = await _db;
+    final prescriptionIds = <int>[];
     await db.transaction<void>((txn) async {
+      final prescriptions = await txn.query(
+        'doliprane_prescriptions',
+        columns: ['id'],
+        where: 'child_id = ?',
+        whereArgs: [id],
+      );
+      prescriptionIds.addAll(prescriptions.map((r) => r['id'] as int));
+      await txn.delete('doliprane_prescriptions', where: 'child_id = ?', whereArgs: [id]);
       final patterns = await txn.query(
         'weekly_patterns',
         columns: ['id'],
@@ -248,6 +258,12 @@ class ChildLocalDatasource {
       await txn.delete('diseases', where: 'child_id = ?', whereArgs: [id]);
       await txn.delete('children', where: 'id = ?', whereArgs: [id]);
     });
+    // Annule les rappels Doliprane de l'enfant supprimé.
+    for (final prescriptionId in prescriptionIds) {
+      try {
+        await DolipraneNotificationService.cancelReminder(prescriptionId);
+      } catch (_) {}
+    }
   }
 }
 

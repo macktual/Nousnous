@@ -99,7 +99,9 @@ class DolipraneNotificationService {
       'Pensez à renouveler l\'ordonnance Doliprane$childLabel.',
       scheduled,
       details,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      // Mode « inexact » : pas besoin de l'autorisation d'alarme exacte
+      // (refusée par défaut depuis Android 14). Un rappel vers 9 h suffit.
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
