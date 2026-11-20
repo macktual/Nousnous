@@ -27,7 +27,7 @@ Future<void> initAppFilePaths() async {
 
 /// Retrouve un fichier de l'app à partir du chemin enregistré en base.
 ///
-/// Sur iOS, le chemin du conteneur de l'app (…/Application/<UUID>/Documents)
+/// Sur iOS, le chemin du conteneur de l'app (…/Application/UUID/Documents)
 /// change à chaque mise à jour ou restauration iCloud : un chemin absolu
 /// enregistré auparavant ne pointe plus vers rien. On reconstruit alors le
 /// chemin à partir du dossier Documents actuel.
