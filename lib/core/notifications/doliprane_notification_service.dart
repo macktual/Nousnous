@@ -106,6 +106,13 @@ class DolipraneNotificationService {
     );
   }
 
+  /// Annule tous les rappels programmés (l'app n'utilise les notifications que pour Doliprane).
+  static Future<void> cancelAllReminders() async {
+    if (kIsWeb) return;
+    if (!_instance._initialized) return;
+    await _instance._plugin.cancelAll();
+  }
+
   /// Annule le rappel pour l'ordonnance donnée.
   static Future<void> cancelReminder(int prescriptionId) async {
     if (kIsWeb) return;

@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/backup/file_backup_service.dart';
 import '../../../../core/backup/icloud_backup_service.dart';
 import '../../../../core/db/app_database_provider.dart';
 import '../../../assistant_profile/presentation/controllers/assistant_profile_controller.dart';
@@ -30,6 +31,9 @@ class _AboutPageState extends ConsumerState<AboutPage> {
   bool _icloudBusy = false;
   String? _icloudStatus;
   int _icloudMetaRefresh = 0;
+  bool _fileBusy = false;
+  String? _fileStatus;
+  bool _fileStatusIsError = false;
 
   Future<void> _openPayPalDonate() async {
     final uri = Uri.parse(_paypalDonateUrl);
@@ -94,6 +98,7 @@ class _AboutPageState extends ConsumerState<AboutPage> {
     try {
       final db = ref.read(appDatabaseProvider);
       await IcloudBackupService.restoreBackup(db);
+      await FileBackupService.rescheduleDolipraneReminders(db);
       _invalidateAfterRestore();
       if (mounted) {
         setState(() => _icloudStatus = 'Restauration terminée. Fermez complètement l’app puis rouvrez-la si un écran affiche encore d’anciennes données.');
@@ -106,6 +111,81 @@ class _AboutPageState extends ConsumerState<AboutPage> {
       if (mounted) setState(() => _icloudBusy = false);
     }
   }
+
+  Future<void> _exportToFile() async {
+    setState(() {
+      _fileBusy = true;
+      _fileStatus = null;
+    });
+    try {
+      final db = ref.read(appDatabaseProvider);
+      final saved = await FileBackupService.exportBackup(db);
+      if (mounted && saved) {
+        setState(() {
+          _fileStatus = 'Sauvegarde enregistrée. Gardez ce fichier en lieu sûr (Google Drive, e-mail, ordinateur…).';
+          _fileStatusIsError = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _fileStatus = 'Échec de la sauvegarde : ${_errorText(e)}';
+          _fileStatusIsError = true;
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _fileBusy = false);
+    }
+  }
+
+  Future<void> _confirmImportFromFile() async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Restaurer une sauvegarde ?'),
+        content: const Text(
+          'Toutes les données actuelles de l’app (enfants, profil, photos, signatures…) seront remplacées par celles du fichier choisi. Cette action est irréversible.',
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Annuler')),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Choisir le fichier'),
+          ),
+        ],
+      ),
+    );
+    if (ok != true || !mounted) return;
+
+    setState(() {
+      _fileBusy = true;
+      _fileStatus = null;
+    });
+    try {
+      final db = ref.read(appDatabaseProvider);
+      final restored = await FileBackupService.importBackup(db);
+      if (restored) {
+        _invalidateAfterRestore();
+        if (mounted) {
+          setState(() {
+            _fileStatus = 'Restauration terminée. Fermez complètement l’app puis rouvrez-la si un écran affiche encore d’anciennes données.';
+            _fileStatusIsError = false;
+          });
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _fileStatus = 'Échec de la restauration : ${_errorText(e)}';
+          _fileStatusIsError = true;
+        });
+      }
+    } finally {
+      if (mounted) setState(() => _fileBusy = false);
+    }
+  }
+
+  String _errorText(Object e) => e is StateError ? e.message : e.toString();
 
   @override
   Widget build(BuildContext context) {
@@ -308,6 +388,60 @@ class _AboutPageState extends ConsumerState<AboutPage> {
                   color: _icloudStatus!.contains('terminée') || _icloudStatus!.contains('envoyée')
                       ? theme.colorScheme.primary
                       : theme.colorScheme.error,
+                ),
+              ),
+            ],
+          ],
+          if (FileBackupService.isSupported) ...[
+            const SizedBox(height: 24),
+            const Divider(),
+            const SizedBox(height: 16),
+            Text(
+              'Sauvegarde dans un fichier',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Créez un fichier contenant toutes vos données (enfants, profil, photos, signatures) et gardez-le dans Google Drive, '
+              'vos Téléchargements ou envoyez-le-vous par e-mail. Indispensable avant de changer de téléphone ou de réinstaller l’app.',
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: FilledButton.tonalIcon(
+                    onPressed: _fileBusy ? null : _exportToFile,
+                    icon: _fileBusy
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.save_alt, size: 20),
+                    label: const Text('Sauvegarder'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: _fileBusy ? null : _confirmImportFromFile,
+                    icon: const Icon(Icons.restore, size: 20),
+                    label: const Text('Restaurer'),
+                  ),
+                ),
+              ],
+            ),
+            if (_fileStatus != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                _fileStatus!,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: _fileStatusIsError ? theme.colorScheme.error : theme.colorScheme.primary,
                 ),
               ),
             ],
