@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
@@ -164,13 +165,47 @@ Future<Uint8List?> loadAssistantSignatureBytes(String? path) async {
 }
 
 /// Charge les octets d'une photo justificatif (pour PDF).
+///
+/// La photo est décodée par le système puis ré-encodée en PNG réduit : certaines
+/// photos Android (WebP, HEIF, très grandes images, orientation EXIF…) ne
+/// s'affichaient pas dans le PDF alors qu'elles s'affichaient dans l'app.
 Future<Uint8List?> loadJustificationPhotoBytes(String path) async {
+  Uint8List original;
   try {
     final file = resolveAppFile(path);
     if (!file.existsSync()) return null;
-    return await file.readAsBytes();
+    original = await file.readAsBytes();
   } catch (_) {
     return null;
+  }
+  if (original.isEmpty) return null;
+  return await _normalizeImageForPdf(original) ?? original;
+}
+
+/// Décode [bytes] avec le décodeur du système (JPEG, PNG, WebP, HEIF…),
+/// réduit l'image à [maxWidth] px de large et la renvoie en PNG.
+/// Renvoie null si l'image ne peut pas être décodée.
+Future<Uint8List?> _normalizeImageForPdf(Uint8List bytes, {int maxWidth = 400}) async {
+  ui.ImmutableBuffer? buffer;
+  ui.ImageDescriptor? descriptor;
+  ui.Codec? codec;
+  ui.Image? image;
+  try {
+    buffer = await ui.ImmutableBuffer.fromUint8List(bytes);
+    descriptor = await ui.ImageDescriptor.encoded(buffer);
+    final targetWidth = descriptor.width > maxWidth ? maxWidth : null;
+    codec = await descriptor.instantiateCodec(targetWidth: targetWidth);
+    final frame = await codec.getNextFrame();
+    image = frame.image;
+    final data = await image.toByteData(format: ui.ImageByteFormat.png);
+    return data?.buffer.asUint8List();
+  } catch (_) {
+    return null;
+  } finally {
+    image?.dispose();
+    codec?.dispose();
+    descriptor?.dispose();
+    buffer?.dispose();
   }
 }
 

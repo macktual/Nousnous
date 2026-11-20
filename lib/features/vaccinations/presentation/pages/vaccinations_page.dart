@@ -323,6 +323,7 @@ class _VaccinationsBodyState extends ConsumerState<_VaccinationsBody> {
     final schedule = await ref.read(getVaccinationScheduleProvider).call(
           widget.child.id,
           widget.child.birthDate,
+          vaccinationScheme: widget.child.vaccinationScheme,
         );
     final photoBytes = await Future.wait(
       schedule.map((e) async {
