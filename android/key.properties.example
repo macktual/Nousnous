@@ -1,0 +1,13 @@
+# Copier ce fichier vers key.properties et remplir avec vos valeurs.
+# Ne jamais commiter key.properties ni le fichier .jks (déjà dans .gitignore).
+#
+# Générer un keystore (une seule fois) :
+#   cd android
+#   keytool -genkey -v -keystore upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+#
+# Ensuite placer upload-keystore.jks dans ce dossier android/ et renseigner :
+
+storePassword=VOTRE_MOT_DE_PASSE_STORE
+keyPassword=VOTRE_MOT_DE_PASSE_CLE
+keyAlias=upload
+storeFile=upload-keystore.jks

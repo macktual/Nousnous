@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,8 +12,11 @@ import '../../../assistant_profile/presentation/controllers/assistant_profile_co
 import '../../../children/presentation/controllers/children_controllers.dart';
 import '../../../medications/presentation/controllers/medication_controllers.dart';
 
-/// Lien PayPal.Me pour les dons.
+/// Lien PayPal.Me pour les dons (hors iOS : App Store exige l’IAP pour ce type de soutien — guideline 3.1.1).
 const String _paypalDonateUrl = 'https://paypal.me/cestoim';
+
+bool get _showPayPalDonation =>
+    defaultTargetPlatform != TargetPlatform.iOS;
 
 /// Page À propos / Mentions légales – propriété intellectuelle et restrictions d’usage.
 class AboutPage extends ConsumerStatefulWidget {
@@ -308,26 +312,28 @@ class _AboutPageState extends ConsumerState<AboutPage> {
               ),
             ],
           ],
-          const SizedBox(height: 24),
-          const Divider(),
-          const SizedBox(height: 16),
-          Text(
-            'Soutien',
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
+          if (_showPayPalDonation) ...[
+            const SizedBox(height: 24),
+            const Divider(),
+            const SizedBox(height: 16),
+            Text(
+              'Soutien',
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Si cette application vous est utile, vous pouvez soutenir son développement par un don via PayPal.',
-            style: theme.textTheme.bodyMedium,
-          ),
-          const SizedBox(height: 12),
-          FilledButton.icon(
-            onPressed: _openPayPalDonate,
-            icon: const Icon(Icons.volunteer_activism, size: 20),
-            label: const Text('Faire un don via PayPal'),
-          ),
+            const SizedBox(height: 8),
+            Text(
+              'Si cette application vous est utile, vous pouvez soutenir son développement par un don via PayPal.',
+              style: theme.textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              onPressed: _openPayPalDonate,
+              icon: const Icon(Icons.volunteer_activism, size: 20),
+              label: const Text('Faire un don via PayPal'),
+            ),
+          ],
         ],
       ),
     );

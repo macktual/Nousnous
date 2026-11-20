@@ -11,6 +11,10 @@ Document récapitulatif des principales évolutions apportées au projet (assist
 - **Icône :** proposition **icon_v3_01_bebe_joie** (bébé, couleurs joyeuses) → `assets/images/app_icon.png`, génération des tailles avec **flutter_launcher_icons**.
 - **Sauvegarde iCloud (iOS) :** archive **`easynounou_backup.zip`**.
 
+### Conformité App Store (iOS)
+
+- **Don / PayPal (page À propos) :** non affiché sur **iOS** (règle 3.1.1 — achats intégrés requis pour ce type de soutien à une app numérique). Conservé sur **Android** et autres plateformes non concernées.
+
 ---
 
 ## Enfants et contrat

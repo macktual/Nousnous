@@ -36,7 +36,7 @@ Les **horaires** peuvent comporter **plusieurs semaines types** ; les **changeme
 
 | Icône en haut | Rôle |
 |---------------|------|
-| **i** (info) | **À propos** : version de l’app, mentions, don PayPal, sauvegarde iCloud (iPhone selon configuration). |
+| **i** (info) | **À propos** : version de l’app, mentions, sauvegarde iCloud (iPhone selon configuration). Sur **Android**, lien optionnel de soutien (PayPal) ; **pas sur iOS** (règles App Store). |
 | **Archives** | Enfants dont l’accueil est **clos** et documents associés. |
 | **Personne** | **Profil assistant** à mettre à jour si tes infos changent. |
 

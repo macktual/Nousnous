@@ -1,16 +1,18 @@
-# Fiche Google Play Store — NousNous (assistante maternelle)
+# Fiche Google Play Store — easynounou (assistante maternelle)
 
-Utilisez les textes ci‑dessous dans la console Google Play (Play Console) pour la fiche de votre application.
+Textes prêts à coller dans la [Google Play Console](https://play.google.com/console).
+
+**Package :** `com.assistante_maternelle.app`
 
 ---
 
 ## Nom de l’application (30 caractères max)
 
 ```
-NousNous - Assistante maternelle
+easynounou
 ```
 
-*Ou plus court :* `NousNous`
+*Variante :* `easynounou - Assistante mat.`
 
 ---
 
@@ -21,6 +23,7 @@ Gestion des enfants, contrats, vaccins et documents pour assistantes maternelles
 ```
 
 *Variante :*
+
 ```
 Fiches enfants, vaccins, médicaments et PDF pour assistantes maternelles.
 ```
@@ -30,7 +33,7 @@ Fiches enfants, vaccins, médicaments et PDF pour assistantes maternelles.
 ## Description complète (4000 caractères max)
 
 ```
-NousNous est une application dédiée aux assistantes maternelles pour gérer au quotidien les informations des enfants accueillis et produire les documents utiles.
+easynounou est une application dédiée aux assistantes maternelles pour gérer au quotidien les informations des enfants accueillis et produire les documents utiles.
 
 FONCTIONNALITÉS PRINCIPALES
 
@@ -38,7 +41,7 @@ FONCTIONNALITÉS PRINCIPALES
 
 • Fiches enfants : nom, prénom, date de naissance, photo, coordonnées des parents (adresse, code postal, ville, téléphone, email), dates de contrat (début / fin), particularités d’accueil.
 
-• Calendrier vaccinal : suivi des vaccinations avec date théorique et date réelle, justificatifs (source : WhatsApp, email, papier) et photo du reçu, génération du PDF récapitulatif.
+• Calendrier vaccinal : suivi des vaccinations avec date théorique et date réelle, justificatifs et photo du reçu, génération du PDF récapitulatif.
 
 • Suivi des médicaments : administration des médicaments avec génération du PDF de suivi.
 
@@ -50,34 +53,34 @@ FONCTIONNALITÉS PRINCIPALES
 
 • Archivage : clôture d’un accueil avec motif de départ et génération des PDF d’archivage.
 
-Les données sont enregistrées uniquement sur votre appareil. Aucune donnée n’est envoyée sur un serveur. Vous gardez le contrôle total de vos informations.
+Les données sont enregistrées sur votre appareil. Aucun serveur tiers n’est utilisé pour le fonctionnement courant. Vous gardez le contrôle de vos informations.
 
-Idéal pour les professionnelles de l’accueil individuel qui souhaitent tout centraliser et imprimer les documents officiels en un clin d’œil.
+Sur Android, vous pouvez soutenir le développement depuis la page À propos (lien optionnel).
+
+Idéal pour les professionnelles de l’accueil individuel qui souhaitent tout centraliser et imprimer les documents utiles au quotidien.
 ```
 
 ---
 
 ## Catégorie
 
-- **Catégorie principale :** Productivité *(ou « Famille » selon votre préférence)*
+- **Catégorie principale :** Productivité *(ou « Famille » selon ton positionnement)*
 - **Tags / catégories secondaires :** Famille, Outils
 
 ---
 
 ## Contact du développeur
 
-- **E-mail :** [VOTRE_EMAIL]
-- **Site web :** [VOTRE_SITE_OU_PAGE] (optionnel)
-- **Téléphone :** [OPTIONNEL]
+- **E-mail :** tualfranck@gmail.com
+- **Site web :** https://macktual.github.io/Nousnous/support.html *(optionnel)*
 
 ---
 
 ## Politique de confidentialité (URL obligatoire)
 
-Indiquez l’URL de la page où vous hébergez la politique de confidentialité, par exemple :
-`https://votresite.com/politique-confidentialite-nousnous`
-
-*(Voir le fichier `politique_confidentialite.md` ou `politique_confidentialite.html` dans ce dossier.)*
+```
+https://macktual.github.io/Nousnous/politique_confidentialite.html
+```
 
 ---
 
@@ -86,23 +89,25 @@ Indiquez l’URL de la page où vous hébergez la politique de confidentialité,
 - **Public cible :** Adultes (professionnels)
 - **Contient des publicités :** Non
 - **Achats intégrés :** Non
-- **Données collectées :** Aucune (données uniquement sur l’appareil — à préciser dans le formulaire « Sécurité des données » / « Données collectées » en cochant « Aucune donnée collectée » ou en détaillant selon les options proposées.)
+- **Données collectées :** à déclarer dans **Sécurité des données** — données saisies par l’utilisateur, stockées localement sur l’appareil (voir `docs/rgpd_resume.md`).
 
 ---
 
 ## Captures d’écran recommandées
 
-- Au moins 2 captures (téléphone) ; 8 max.
-- Idéal : écran d’accueil (liste des enfants), fiche enfant, écran vaccins, aperçu d’un PDF.
-- Dimensions minimales : 320 px (petit côté), ratio 16:9 ou 9:16 selon orientation.
+- Au moins **2** captures (téléphone) ; jusqu’à **8**.
+- Idéal : liste des enfants, fiche enfant, vaccins, aperçu PDF.
+- Respecter les **tailles minimales** indiquées par la console (souvent hauteur min. par côté).
 
 ---
 
 ## Icône et graphisme
 
-- **Icône de l’application :** 512 x 512 px (PNG, 32 bits, sans transparence pour l’icône principale Play).
-- **Bannière « Feature Graphic » :** 1024 x 500 px (optionnel mais recommandé).
+- **Icône :** 512 × 512 px (PNG ; la console peut refuser la transparence sur l’icône principale).
+- **Feature graphic :** 1024 × 500 px (recommandé).
 
 ---
 
-*À compléter avec vos coordonnées réelles et l’URL de votre politique de confidentialité avant publication.*
+## Guide pas à pas complet
+
+Voir **`docs/google_play/PUBLICATION_COMPLET.md`** (clé de signature, AAB, checklist).
